@@ -1,5 +1,7 @@
 package com.thomas.test.ui
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -10,6 +12,7 @@ import com.thomas.test.`object`.Item
 import com.thomas.test.adapter.RecyclerViewAdapter
 import com.thomas.test.di.components.DaggerMainActivityComponent
 import com.thomas.test.di.modules.MainActivityModule
+import com.thomas.test.viewmodel.ListItemsViewModel
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() ,RecyclerViewAdapter.ClickListener{
@@ -20,6 +23,9 @@ class MainActivity : AppCompatActivity() ,RecyclerViewAdapter.ClickListener{
 
     @Inject
     lateinit var recyclerViewAdapter: RecyclerViewAdapter
+
+    @Inject
+    lateinit var viewModelFactory: ListItemsViewModel.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,5 +40,14 @@ class MainActivity : AppCompatActivity() ,RecyclerViewAdapter.ClickListener{
 
         mainActivityComponent.injectMainActivity(this)
         recyclerView.adapter = recyclerViewAdapter
+
+
+        val viewModel = ViewModelProviders.of(this, viewModelFactory).get(ListItemsViewModel::class.java)
+        viewModel.listItems.observe(this, Observer { items -> updateList(items) })
+
+    }
+
+    private fun updateList(list: List<Item>?) {
+        recyclerViewAdapter.setListItems(list)
     }
 }
