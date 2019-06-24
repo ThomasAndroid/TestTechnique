@@ -5,10 +5,15 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.thomas.test.R
+import com.thomas.test.`object`.Item
 import com.thomas.test.adapter.RecyclerViewAdapter
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() ,RecyclerViewAdapter.ClickListener{
+
+    override fun onClickItem(item: Item?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     @Inject
     var recyclerViewAdapter: RecyclerViewAdapter? = null
