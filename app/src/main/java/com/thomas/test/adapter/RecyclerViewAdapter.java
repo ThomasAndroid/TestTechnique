@@ -1,5 +1,8 @@
 package com.thomas.test.adapter;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.thomas.test.R;
+import com.thomas.test.glide.GlideApp;
 import com.thomas.test.object.Item;
 
 import java.util.ArrayList;
@@ -15,6 +19,7 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
+    private final static Drawable defaultColorDrawable = new ColorDrawable(Color.LTGRAY);
     private final ClickListener clickListener;
     private List<Item> listItems;
 
@@ -38,6 +43,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder viewHolder, int pos) {
         Item currentItem = listItems.get(pos);
         viewHolder.txtTitre.setText(currentItem.title);
+        GlideApp
+                .with(viewHolder.imageThumb.getContext())
+                .load(currentItem.thumbnailUrl)
+                .override(150,150)
+                .placeholder(defaultColorDrawable)
+                .into(viewHolder.imageThumb);
     }
 
     @Override
