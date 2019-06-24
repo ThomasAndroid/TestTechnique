@@ -2,6 +2,7 @@ package com.thomas.test.ui
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -17,9 +18,6 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() ,RecyclerViewAdapter.ClickListener{
 
-    override fun onClickItem(item: Item?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     @Inject
     lateinit var recyclerViewAdapter: RecyclerViewAdapter
@@ -49,5 +47,9 @@ class MainActivity : AppCompatActivity() ,RecyclerViewAdapter.ClickListener{
 
     private fun updateList(list: List<Item>?) {
         recyclerViewAdapter.setListItems(list)
+    }
+
+    override fun onClickItem(item: Item) {
+        startActivity(Intent(this, DetailActivity::class.java).putExtra(DetailActivity.ITEM_TAG, item))
     }
 }
